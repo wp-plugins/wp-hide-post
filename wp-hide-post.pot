@@ -33,7 +33,7 @@ msgid "Hide on category pages."
 msgstr ""
 
 #: wp-hide-post.php:378
-msgid "Hide on tag page(s)."
+msgid "Hide on tag pages."
 msgstr ""
 
 #: wp-hide-post.php:380
@@ -49,7 +49,7 @@ msgid "Hide in search results."
 msgstr ""
 
 #: wp-hide-post.php:386
-msgid "Hide in feed(s)."
+msgid "Hide in feeds."
 msgstr ""
 
 #: wp-hide-post.php:388 wp-hide-post.php:432
