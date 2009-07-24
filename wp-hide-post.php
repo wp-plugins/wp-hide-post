@@ -3,7 +3,7 @@
 Plugin Name: WP Hide Post
 Plugin URI: http://anappleaday.konceptus.net/posts/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
-Version: 1.0.3
+Version: 1.0.4
 Author: Robert Mahfoud
 Author URI: http://anappleaday.konceptus.net
 Text Domain: wp_hide_post
@@ -34,6 +34,8 @@ function wphp_init() {
     global $table_prefix;
     if( !defined('WPHP_TABLE_NAME') )
         define('WPHP_TABLE_NAME', "${table_prefix}postmeta");
+    if( !defined('WP_POSTS_TABLE_NAME') )
+        define('WP_POSTS_TABLE_NAME', "${table_prefix}posts");
     if( !defined('WPHP_DEBUG') ) {
         define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 0);
     }
@@ -523,9 +525,9 @@ function wphp_query_posts_join($join) {
 	if( wphp_is_applicable('post') && wphp_is_applicable('page')) {
 		if( !$join )
 			$join = '';
-		$join .= ' LEFT JOIN '.WPHP_TABLE_NAME.' wphptbl ON wp_posts.ID = wphptbl.post_id and wphptbl.meta_key like \'_wplp_%\'';
-        // filter posts 
-		$join .= ' AND ((wp_posts.post_type = \'post\' ';
+        $join .= ' LEFT JOIN '.WPHP_TABLE_NAME.' wphptbl ON '.WP_POSTS_TABLE_NAME.'.ID = wphptbl.post_id and wphptbl.meta_key like \'_wplp_%\'';
+		// filter posts 
+		$join .= ' AND (('.WP_POSTS_TABLE_NAME.'.post_type = \'post\' ';
 		if( wphp_is_front_page() )
 			$join .= ' AND wphptbl.meta_key = \'_wplp_post_front\' ';
 		elseif( wphp_is_category())
@@ -544,7 +546,7 @@ function wphp_query_posts_join($join) {
             $join .= ' AND wphptbl.meta_key not like  \'_wplp_%\' ';
 		$join .= ')';	
 		// pages
-        $join .= ' OR (wp_posts.post_type = \'page\' AND wphptbl.meta_key <> \'_wplp_page_flags\'';
+        $join .= ' OR ('.WP_POSTS_TABLE_NAME.'.post_type = \'page\' AND wphptbl.meta_key <> \'_wplp_page_flags\'';
         if( wphp_is_search())
             $join .= ' AND wphptbl.meta_key = \'_wplp_page_search\' ';
         else
