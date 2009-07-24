@@ -212,7 +212,7 @@ add_action('activate_wp-hide-post/wp-hide-post.php', 'wphp_activate' );
 
 
 /**
- * Hook to watch for the activation of 'WP low Profiler'...
+ * Hook to watch for the activation of 'WP low Profiler', and forbid it...
  * @return unknown_type
  */
 function wphp_activate_lowprofiler() {
@@ -220,6 +220,7 @@ function wphp_activate_lowprofiler() {
     wphp_migrate_db();  // in case any tables were created, clean them up
     wphp_remove_wp_low_profiler();  // remove the files of the plugin
 
+    // get an authoritative admin URL
     if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
         $admin_dir = WP_SITEURL . '/wp-admin/';
     elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
@@ -228,12 +229,18 @@ function wphp_activate_lowprofiler() {
         $admin_dir = '';
     else
         $admin_dir = 'wp-admin/';
-            
+    
+    $msgbox = __("'WP low Profiler' has been deprecated and replaced by 'WP Hide Post' which you already have active! Activation failed and plugin files cleaned up.", 'wp-hide-post');
+    $err1_sorry = __("Cannot install 'WP low Profiler' because of a conflict. Sorry for this inconvenience.", 'wp-hide-post');
+    $err2_cleanup = __("The downloaded files were cleaned-up and no further action is required.", 'wp-hide-post');
+    $err3_return = __("Return to plugins page...", 'wp-hide-post');
+
     $html = <<<HTML
-Cannot install 'WP low Profiler' because of a conflict. Sorry for this inconvenience.<br />The downloaded files were cleaned-up and no further action is required.<br /><a href="${admin_dir}plugins.php">Return to plugins page...</a>
-<script language="javascript">window.alert("'WP low Profiler' has been deprecated and replaced by 'WP Hide Post' which you already have active! Activation failed and plugin files cleaned up.");</script>
+${err1_sorry}<br />${err2_cleanup}<br /><a href="${admin_dir}plugins.php">${err3_return}</a>
+<script language="javascript">window.alert("${msgbox}");</script>
 HTML;
-    wp_die($html, '', array( 'response' => '409') );
+    // show the error page with the message...   
+    wp_die($html, 'WP low Profiler Activation Not Allowed', array( 'response' => '200') );
 }
 add_action('activate_wp-low-profiler/wp-low-profiler.php', 'wphp_activate_lowprofiler' );
 

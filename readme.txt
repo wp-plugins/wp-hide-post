@@ -81,14 +81,14 @@ Ditto. It will be deleted. If you had any existing data (if you had it active be
 
 = Why did you change the name of 'WP low Profiler' 'to WP Hide Post'? =
 
-'WP low Profiler' wasn't descriptive enough of the functionality of the plugin. Being 'low profile' could mean many things to many people. It was hard to find and many people who need it didn't know it exists because of that.
+'WP low Profiler' wasn't descriptive enough of the functionality of the plugin. Being 'low profile' could mean many things to many people. It was hard to find and many people who needed it didn't know it exists because of that.
 
 == Screenshots ==
 
-1. A small panel will appear whenever you are editing or creating a **post**. You can check one or more of the *hidden* options as needed. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-1.png)
-2. Closup showing the "Visibility Attributes" for posts. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-2.png)
-3. Another panel will appear whenever you are editing or creating a new **page**. You can check one or more of the *low profile* options as is needed. Note that options for pages are different from those of posts. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-3.png)
-4. Closup showing the "low Profile Attributes" for pages. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-4.png)
+1. Closup showing the *Visibility Attributes* for posts. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-11.png)
+2. A small panel will appear whenever you are editing or creating a **post**. You can check one or more of the *Visibility Attributes* as needed. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-21.png)
+3. Closup showing the *Visibility Attributes* for pages. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-31.png)
+4. Another panel will appear whenever you are editing or creating a new **page**. You can check one or more of the *Visibility Attributes* as needed. Note that options for pages are different from those of posts. [See Larger Version](http://anappleaday.konceptus.net/wp-content/uploads/screenshot-41.png)
 
 == Revision History ==
 
@@ -96,4 +96,4 @@ Ditto. It will be deleted. If you had any existing data (if you had it active be
 
 == Development Blog ==
 
-Please visit the plugin page at [An Apple a Day](http://anappleaday.konceptus.net/posts/wp-low-profiler/), and feel free to leave feedback, bug reports and comments.
+Please visit the plugin page at [An Apple a Day](http://anappleaday.konceptus.net/posts/wp-hide-post/), and feel free to leave feedback, bug reports and comments.
