@@ -35,7 +35,7 @@ function wphp_init() {
     if( !defined('WPHP_TABLE_NAME') )
         define('WPHP_TABLE_NAME', "${table_prefix}postmeta");
     if( !defined('WPHP_DEBUG') ) {
-        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 1);
+        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 0);
     }
 }
 wphp_init();
