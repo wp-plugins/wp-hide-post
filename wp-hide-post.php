@@ -28,6 +28,20 @@ Text Domain: wp_hide_post
 
 /**
  * 
+ * @return unknown_type
+ */
+function wphp_init() {
+    global $table_prefix;
+    if( !defined('WPHP_TABLE_NAME') )
+        define('WPHP_TABLE_NAME', "${table_prefix}postmeta");
+    if( !defined('WPHP_DEBUG') ) {
+        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 0);
+    }
+}
+wphp_init();
+
+/**
+ * 
  * @param $msg
  * @return unknown_type
  */
@@ -35,20 +49,6 @@ function wphp_log($msg) {
 	if( defined('WPHP_DEBUG') && WPHP_DEBUG )
 	   error_log("WPHP-> $msg");
 }
-
-/**
- * 
- * @return unknown_type
- */
-function wphp_init() {
-	global $table_prefix;
-    if( !defined('WPHP_TABLE_NAME') )
-        define('WPHP_TABLE_NAME', "${table_prefix}postmeta");
-	if( !defined('WPHP_DEBUG') ) {
-        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 1);
-	}
-}
-wphp_init();
 
 /**
  * 
@@ -220,23 +220,14 @@ function wphp_activate_lowprofiler() {
     wphp_migrate_db();  // in case any tables were created, clean them up
     wphp_remove_wp_low_profiler();  // remove the files of the plugin
 
-    // get an authoritative admin URL
-    if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
-        $admin_dir = WP_SITEURL . '/wp-admin/';
-    elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
-        $admin_dir = get_bloginfo( 'wpurl' ) . '/wp-admin/';
-    elseif ( strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) !== false )
-        $admin_dir = '';
-    else
-        $admin_dir = 'wp-admin/';
-    
     $msgbox = __("'WP low Profiler' has been deprecated and replaced by 'WP Hide Post' which you already have active! Activation failed and plugin files cleaned up.", 'wp-hide-post');
     $err1_sorry = __("Cannot install 'WP low Profiler' because of a conflict. Sorry for this inconvenience.", 'wp-hide-post');
     $err2_cleanup = __("The downloaded files were cleaned-up and no further action is required.", 'wp-hide-post');
     $err3_return = __("Return to plugins page...", 'wp-hide-post');
-
+    $return_url = admin_url('plugins.php');
+    
     $html = <<<HTML
-${err1_sorry}<br />${err2_cleanup}<br /><a href="${admin_dir}plugins.php">${err3_return}</a>
+${err1_sorry}<br />${err2_cleanup}<br /><a href="${$return_url}">${err3_return}</a>
 <script language="javascript">window.alert("${msgbox}");</script>
 HTML;
     // show the error page with the message...   
@@ -382,7 +373,7 @@ function wphp_metabox_post_edit() {
 	<br />
 	<label for="wplp_post_category" class="selectit"><input type="checkbox" id="wplp_post_category" name="wplp_post_category" value="1"<?php checked($wplp_post_category, 1); ?>/>&nbsp;<?php _e('Hide on category pages.', 'wp-hide-post'); ?></label>
 	<br />
-	<label for="wplp_post_tag" class="selectit"><input type="checkbox" id="wplp_post_tag" name="wplp_post_tag" value="1"<?php checked($wplp_post_tag, 1); ?>/>&nbsp;<?php _e('Hide on tag page(s).', 'wp-hide-post'); ?></label>
+	<label for="wplp_post_tag" class="selectit"><input type="checkbox" id="wplp_post_tag" name="wplp_post_tag" value="1"<?php checked($wplp_post_tag, 1); ?>/>&nbsp;<?php _e('Hide on tag pages.', 'wp-hide-post'); ?></label>
 	<br />
 	<label for="wplp_post_author" class="selectit"><input type="checkbox" id="wplp_post_author" name="wplp_post_author" value="1"<?php checked($wplp_post_author, 1); ?>/>&nbsp;<?php _e('Hide on author pages.', 'wp-hide-post'); ?></label>
 	<br />
@@ -390,7 +381,7 @@ function wphp_metabox_post_edit() {
 	<br />
 	<label for="wplp_post_search" class="selectit"><input type="checkbox" id="wplp_post_search" name="wplp_post_search" value="1"<?php checked($wplp_post_search, 1); ?>/>&nbsp;<?php _e('Hide in search results.', 'wp-hide-post'); ?></label>
 	<br />
-	<label for="wplp_post_feed" class="selectit"><input type="checkbox" id="wplp_post_feed" name="wplp_post_feed" value="1"<?php checked($wplp_post_feed, 1); ?>/>&nbsp;<?php _e('Hide in feed(s).', 'wp-hide-post'); ?></label>
+	<label for="wplp_post_feed" class="selectit"><input type="checkbox" id="wplp_post_feed" name="wplp_post_feed" value="1"<?php checked($wplp_post_feed, 1); ?>/>&nbsp;<?php _e('Hide in feeds.', 'wp-hide-post'); ?></label>
     <br />
     <div style="float:right;font-size: xx-small;"><a href="http://anappleaday.konceptus.net/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
     <br />
@@ -565,5 +556,19 @@ function wphp_query_posts_join($join) {
 }
 add_filter('posts_where_paged', 'wphp_query_posts_where');
 add_filter('posts_join_paged', 'wphp_query_posts_join');
+
+
+function plugin_install_action_links_wp_lowprofiler($action_links, $plugin) {
+    wphp_log("called: plugin_install_action_links_wp_lowprofiler");
+    if( $plugin['name'] == 'WP low Profiler' ) {
+    	$alt = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=wp-hide-post&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="WP Hide Post">' . __('Check "WP Hide Post"') . '</a>';
+        $action_links = array(
+            __('Deprecated'),
+            $alt);
+    }
+    return $action_links;
+}
+add_filter('plugin_install_action_links', 'plugin_install_action_links_wp_lowprofiler', 10, 2);
+
 
 ?>
