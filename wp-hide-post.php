@@ -3,7 +3,7 @@
 Plugin Name: WP Hide Post
 Plugin URI: http://anappleaday.konceptus.net/posts/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
-Version: 1.1.0
+Version: 1.1.1
 Author: Robert Mahfoud
 Author URI: http://anappleaday.konceptus.net
 Text Domain: wp_hide_post
@@ -158,8 +158,9 @@ function wphp_exclude_low_profile_items($item_type, $posts) {
 			global $wpdb;
 			// now loop over the pages, and exclude the ones with low profile in this context
 			$result = array();
+            $page_flags = $wpdb->get_results("SELECT post_id, meta_value FROM ".WPHP_TABLE_NAME." WHERE meta_key = '_wplp_page_flags'", OBJECT_K);
 			foreach($posts as $post) {
-				$check = strval($wpdb->get_var("SELECT meta_value FROM ".WPHP_TABLE_NAME." WHERE post_id = $post->ID and meta_key = '_wplp_page_flags'"));
+				$check = isset($page_flags[ $post->ID ]) ? $page_flags[ $post->ID ]->meta_value : null;
 				if( ($check == 'front' && wphp_is_front_page()) || $check == 'all') {
 					// exclude page
 				} else
