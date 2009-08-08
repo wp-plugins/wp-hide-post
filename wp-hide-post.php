@@ -3,7 +3,7 @@
 Plugin Name: WP Hide Post
 Plugin URI: http://anappleaday.konceptus.net/posts/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
-Version: 1.1.2
+Version: 1.1.3
 Author: Robert Mahfoud
 Author URI: http://anappleaday.konceptus.net
 Text Domain: wp_hide_post
@@ -37,7 +37,7 @@ function wphp_init() {
     if( !defined('WP_POSTS_TABLE_NAME') )
         define('WP_POSTS_TABLE_NAME', "${table_prefix}posts");
     if( !defined('WPHP_DEBUG') ) {
-        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 1);
+        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 0);
     }
 }
 wphp_init();
@@ -134,21 +134,6 @@ function wphp_textdomain() {
 	load_plugin_textdomain('wp-hide-post', ABSPATH."/$plugin_dir", $plugin_dir);
 }
 add_action('init', 'wphp_textdomain');
-
-/**
- * Hook called when activating the plugin
- * @return unknown_type
- */
-function wphp_activate() {
-    wphp_init();
-	wphp_log("called: wphp_activate");
-	
-	require_once(dirname(__FILE__).'/upgrade.php');
-	wphp_migrate_db();
-	wphp_remove_wp_low_profiler();
-}
-add_action('activate_wp-hide-post/wp-hide-post.php', 'wphp_activate' );
-//register_activation_hook( __FILE__, 'wphp_activate' );
 
 /**
  * 
@@ -254,6 +239,23 @@ add_filter('posts_join_paged', 'wphp_query_posts_join');
  * ADMIN FUNCTIONS
  *********************/
 
+
+/**
+ * Hook called when activating the plugin
+ * @return unknown_type
+ */
+function wphp_activate() {
+    wphp_init();
+    wphp_log("called: wphp_activate");
+    
+    require_once(dirname(__FILE__).'/upgrade.php');
+    wphp_migrate_db();
+    wphp_remove_wp_low_profiler();
+}
+add_action('activate_wp-hide-post/wp-hide-post.php', 'wphp_activate' );
+//register_activation_hook( __FILE__, 'wphp_activate' );
+
+
 /**
  * Hook to watch for the activation of 'WP low Profiler', and forbid it...
  * @return unknown_type
@@ -341,7 +343,6 @@ function wphp_set_low_profile($item_type, $id, $lp_flag, $lp_value) {
     global $wpdb;   
     // Ensure No Duplicates!
     $check = $wpdb->get_var("SELECT count(*) FROM ".WPHP_TABLE_NAME." WHERE post_id = $id AND meta_key='$lp_flag'");
-    error_log("Check: $check");
     if(!$check) {
         $wpdb->query("INSERT INTO ".WPHP_TABLE_NAME."(post_id, meta_key, meta_value) VALUES($id, '$lp_flag', '$lp_value')");
     } elseif( $item_type == 'page' && $lp_flag == "_wplp_page_flags" ) {
@@ -355,8 +356,15 @@ function wphp_set_low_profile($item_type, $id, $lp_flag, $lp_value) {
  */
 function wphp_add_post_edit_meta_box() {
     wphp_log("called: wphp_add_post_edit_meta_box");
-    add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post', 'side');
-    add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page', 'side');
+    global $wp_version;
+    if( ! $wp_version || $wp_version >= '2.7' ) {
+	    add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post', 'side');
+	    add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page', 'side');
+    } else {
+        add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post');
+        add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page');
+    }
+    
 }
 add_action('admin_menu', 'wphp_add_post_edit_meta_box');
 
@@ -531,5 +539,6 @@ function wphp_delete_post($post_id) {
     $wpdb->query("DELETE FROM ".WPHP_TABLE_NAME." WHERE post_id = $post_id and meta_key like '_wplp_%'");
 }
 add_action('delete_post', 'wphp_delete_post');
+
 
 ?>
