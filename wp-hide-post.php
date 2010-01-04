@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Hide Post
-Plugin URI: http://anappleaday.konceptus.net/posts/wp-hide-post/
+Plugin URI: http://www.1apple1day.com/posts/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
 Version: 1.1.9
 Author: Robert Mahfoud
-Author URI: http://anappleaday.konceptus.net
+Author URI: http://www.1apple1day.com
 Text Domain: wp_hide_post
 */
 
@@ -421,7 +421,7 @@ function wphp_metabox_post_edit() {
     <label for="wplp_post_feed" class="selectit"><input type="checkbox" id="wplp_post_feed" name="wplp_post_feed" value="1"<?php checked($wplp_post_feed, 1); ?>/>&nbsp;<?php _e('Hide in feeds.', 'wp-hide-post'); ?></label>
     <input type="hidden" name="old_wplp_post_feed" value="<?php echo $wplp_post_feed; ?>"/>
     <br />
-    <div style="float:right;font-size: xx-small;"><a href="http://anappleaday.konceptus.net/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
+    <div style="float:right;font-size: xx-small;"><a href="http://www.1apple1day.com/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
     <br />
     <div style="float:right;font-size: xx-small;"><a href="http://wordpress.org/extend/plugins/wp-hide-post/"><?php _e("Give 'WP Hide Post' a good rating...", 'wp-hide-post'); ?></a></div>
     <br />
@@ -465,11 +465,11 @@ function wphp_metabox_page_edit() {
         </div>
     </div>
     <br />
-    <div style="float:right;clear:both;font-size:x-small;">* Will still show up in sitemap.xml if you generate one automatically. See <a href="http://anappleaday.konceptus.net/posts/wp-low-profiler/">details</a>.</div>
+    <div style="float:right;clear:both;font-size:x-small;">* Will still show up in sitemap.xml if you generate one automatically. See <a href="http://www.1apple1day.com/posts/wp-low-profiler/">details</a>.</div>
     <br />
     <br />
     <br />
-    <div style="float:right;font-size: xx-small;"><a href="http://anappleaday.konceptus.net/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
+    <div style="float:right;font-size: xx-small;"><a href="http://www.1apple1day.com/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
     <br />
     <div style="float:right;clear:both;font-size:xx-small;"><a href="http://wordpress.org/extend/plugins/wp-hide-post/"><?php _e("Give 'WP Hide Post' a good rating...", 'wp-hide-post'); ?></a></div>
     <br />
