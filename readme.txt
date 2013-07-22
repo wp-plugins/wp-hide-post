@@ -1,6 +1,6 @@
 === WP Hide Post ===
 Contributors: rmahfoud
-Donate link: http://www.1apple1day.com/donate
+Donate link: http://www.konceptus.net/donate
 Tags: SEO,hide,show,visbility,privacy,customization,sitemap,filter
 Requires at least: 2.6
 Tested up to: 3.2
@@ -57,15 +57,15 @@ Yes. The *hidden* flags are just another set of attributes of a post/page. They 
 
 = I have an idea to improve this feature further, what can I do? =
 
-Please contact me on my blog [An Apple a Day](http://www.1apple1day.com/posts/wp-hide-post/). I'm looking forward to hearing any suggestions.
+Please contact me on my blog [An Apple a Day](http://www.konceptus.net/wp-hide-post/). I'm looking forward to hearing any suggestions.
 
 = I just found something that doesn't look right, do I just sit on it? =
 
-By all means no! Please report any bugs on my blog [An Apple a Day](http://www.1apple1day.com/posts/wp-hide-post/). I'd really appreciate it. This is free software and I rely on the help of people like you to maintain it.
+By all means no! Please report any bugs on my blog [An Apple a Day](http://www.konceptus.net/wp-hide-post/). I'd really appreciate it. This is free software and I rely on the help of people like you to maintain it.
 
 = I'm worried this could reduce my search engine ranking. Is it gonna? =
 
-Not at all. On the contrary. All the content you include on your blog, even though it's not directly accessible from the homepage for example, it's still to be available when search engines crawl your site, and will remain linkable for those individuals that are interested in it. Furthermore, if you use some sitemap generation plugin (like the [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin I use on my own [blog](http://www.1apple1day.com/)) all the content will be published to web crawlers and will be picked up by search engines. In fact, this plugin will make your SEO more effective by allowing you to add content that you wouldn't otherwise want to show on your homepage.
+Not at all. On the contrary. All the content you include on your blog, even though it's not directly accessible from the homepage for example, it's still to be available when search engines crawl your site, and will remain linkable for those individuals that are interested in it. Furthermore, if you use some sitemap generation plugin (like the [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin I use on my own [blog](http://www.konceptus.net/)) all the content will be published to web crawlers and will be picked up by search engines. In fact, this plugin will make your SEO more effective by allowing you to add content that you wouldn't otherwise want to show on your homepage.
 
 = I used the 'WP low Profiler' plugin before. This one sounds just like it. =
 
@@ -85,10 +85,10 @@ Ditto. It will be deleted. If you had any existing data (if you had it active be
 
 == Screenshots ==
 
-1. Closup showing the *Visibility Attributes* for posts. [See Larger Version](http://www.1apple1day.com/wp-content/uploads/screenshot-11.png)
-2. A small panel will appear whenever you are editing or creating a **post**. You can check one or more of the *Visibility Attributes* as needed. [See Larger Version](http://www.1apple1day.com/wp-content/uploads/screenshot-21.png)
-3. Closup showing the *Visibility Attributes* for pages. [See Larger Version](http://www.1apple1day.com/wp-content/uploads/screenshot-31.png)
-4. Another panel will appear whenever you are editing or creating a new **page**. You can check one or more of the *Visibility Attributes* as needed. Note that options for pages are different from those of posts. [See Larger Version](http://www.1apple1day.com/wp-content/uploads/screenshot-41.png)
+1. Closup showing the *Visibility Attributes* for posts. [See Larger Version](http://www.konceptus.net/wp-content/uploads/screenshot-11.png)
+2. A small panel will appear whenever you are editing or creating a **post**. You can check one or more of the *Visibility Attributes* as needed. [See Larger Version](http://www.konceptus.net/wp-content/uploads/screenshot-21.png)
+3. Closup showing the *Visibility Attributes* for pages. [See Larger Version](http://www.konceptus.net/wp-content/uploads/screenshot-31.png)
+4. Another panel will appear whenever you are editing or creating a new **page**. You can check one or more of the *Visibility Attributes* as needed. Note that options for pages are different from those of posts. [See Larger Version](http://www.konceptus.net/wp-content/uploads/screenshot-41.png)
 
 == Revision History ==
 
@@ -103,4 +103,4 @@ Ditto. It will be deleted. If you had any existing data (if you had it active be
 
 == Development Blog ==
 
-Please visit the plugin page at [An Apple a Day](http://www.1apple1day.com/posts/wp-hide-post/), and feel free to leave feedback, bug reports and comments.
+Please visit the plugin page at [An Apple a Day](http://www.konceptus.net/wp-hide-post/), and feel free to leave feedback, bug reports and comments.
