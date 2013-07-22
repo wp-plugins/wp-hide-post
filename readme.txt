@@ -3,8 +3,8 @@ Contributors: rmahfoud
 Donate link: http://www.1apple1day.com/donate
 Tags: SEO,hide,show,visbility,privacy,customization,sitemap,filter
 Requires at least: 2.6
-Tested up to: 2.9
-Stable tag: 1.1.9
+Tested up to: 3.2
+Stable tag: 1.2.1
 
 Enables you to control the visibility of items on your blog by making posts/pages hidden on some parts of your blog, while still visible in other parts as well as to search engines. This plugin is the new incarnation of the 'WP low Profiler'. If this plugin already exists, it will be upgraded to this one, keeping all existing settings.
 
