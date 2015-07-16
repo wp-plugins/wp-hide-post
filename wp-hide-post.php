@@ -3,7 +3,7 @@
 Plugin Name: WP Hide Post
 Plugin URI: http://konceptus.net/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
-Version: 1.2.1
+Version: 1.2.2
 Author: scriptburn.com
 Author URI: http://www.scriptburn.com
 Text Domain: wp_hide_post
