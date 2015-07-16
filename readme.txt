@@ -91,7 +91,7 @@ Ditto. It will be deleted. If you had any existing data (if you had it active be
 4. Another panel will appear whenever you are editing or creating a new **page**. You can check one or more of the *Visibility Attributes* as needed. Note that options for pages are different from those of posts. [See Larger Version](http://www.konceptus.net/wp-content/uploads/screenshot-41.png)
 
 == Revision History ==
-
+* 07/16/2015: v1.1.9  - Compatibility with Wordpress 4.2.2
 * 01/02/2010: v1.1.9  - Compatibility with Wordpress 2.9
 * 10/24/2009: v1.1.4  - Added compatibility with Wordpress 2.8.5
 * 08/07/2009: v1.1.3  - Extended support for Wordpress 2.6
