@@ -4,7 +4,7 @@ Donate link: http://www.konceptus.net/donate
 Tags: SEO,hide,show,visbility,privacy,customization,sitemap,filter
 Requires at least: 2.6
 Tested up to: 4.2.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 Enables you to control the visibility of items on your blog by making posts/pages hidden on some parts of your blog, while still visible in other parts as well as to search engines. This plugin is the new incarnation of the 'WP low Profiler'. If this plugin already exists, it will be upgraded to this one, keeping all existing settings.
 
