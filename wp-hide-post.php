@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: WP Hide Post
-Plugin URI: http://anappleaday.konceptus.net/posts/wp-hide-post/
+Plugin URI: http://konceptus.net/wp-hide-post/
 Description: Enables a user to control the visibility of items on the blog by making posts and pages selectively hidden in different views throughout the blog, such as on the front page, category pages, search results, etc... The hidden item remains otherwise accessible directly using permalinks, and also visible to search engines as part of the sitemap (at least). This plugin enables new SEO possibilities for authors since it enables them to create new posts and pages without being forced to display them on their front and in feeds.
-Version: 1.1.2
-Author: Robert Mahfoud
-Author URI: http://anappleaday.konceptus.net
+Version: 1.2.0
+Author: scriptburn.com
+Author URI: http://www.scriptburn.com
 Text Domain: wp_hide_post
 */
 
-/*  Copyright 2009  Robert Mahfoud  (email : robert.mahfoud@gmail.com)
+/*  Copyright 2015  Robert Mahfoud  (email : support@scriptburn.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ Text Domain: wp_hide_post
 */
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_init() {
@@ -37,13 +37,13 @@ function wphp_init() {
     if( !defined('WP_POSTS_TABLE_NAME') )
         define('WP_POSTS_TABLE_NAME', "${table_prefix}posts");
     if( !defined('WPHP_DEBUG') ) {
-        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 1);
+        define('WPHP_DEBUG', defined('WP_DEBUG') && WP_DEBUG ? 1 : 0);
     }
 }
 wphp_init();
 
 /**
- * 
+ *
  * @param $msg
  * @return unknown_type
  */
@@ -53,7 +53,7 @@ function wphp_log($msg) {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_front_page() {
@@ -61,7 +61,7 @@ function wphp_is_front_page() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_feed() {
@@ -69,7 +69,7 @@ function wphp_is_feed() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_category() {
@@ -77,7 +77,7 @@ function wphp_is_category() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_tag() {
@@ -85,7 +85,7 @@ function wphp_is_tag() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_author() {
@@ -93,7 +93,7 @@ function wphp_is_author() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_archive() {
@@ -101,7 +101,7 @@ function wphp_is_archive() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_is_search() {
@@ -109,7 +109,7 @@ function wphp_is_search() {
 }
 
 /**
- * 
+ *
  * @param $item_type
  * @return unknown_type
  */
@@ -136,22 +136,7 @@ function wphp_textdomain() {
 add_action('init', 'wphp_textdomain');
 
 /**
- * Hook called when activating the plugin
- * @return unknown_type
- */
-function wphp_activate() {
-    wphp_init();
-	wphp_log("called: wphp_activate");
-	
-	require_once(dirname(__FILE__).'/upgrade.php');
-	wphp_migrate_db();
-	wphp_remove_wp_low_profiler();
-}
-add_action('activate_wp-hide-post/wp-hide-post.php', 'wphp_activate' );
-//register_activation_hook( __FILE__, 'wphp_activate' );
-
-/**
- * 
+ *
  * @param $item_type
  * @param $posts
  * @return unknown_type
@@ -166,19 +151,21 @@ function wphp_exclude_low_profile_items($item_type, $posts) {
 			// now loop over the pages, and exclude the ones with low profile in this context
 			$result = array();
             $page_flags = $wpdb->get_results("SELECT post_id, meta_value FROM ".WPHP_TABLE_NAME." WHERE meta_key = '_wplp_page_flags'", OBJECT_K);
-			foreach($posts as $post) {
-				$check = isset($page_flags[ $post->ID ]) ? $page_flags[ $post->ID ]->meta_value : null;
-				if( ($check == 'front' && wphp_is_front_page()) || $check == 'all') {
-					// exclude page
-				} else
-					$result[] = $post;
+			if( $posts ) {
+	            foreach($posts as $post) {
+					$check = isset($page_flags[ $post->ID ]) ? $page_flags[ $post->ID ]->meta_value : null;
+					if( ($check == 'front' && wphp_is_front_page()) || $check == 'all') {
+						// exclude page
+					} else
+						$result[] = $post;
+				}
 			}
 	        return $result;
         } else
             return $posts;
     }
 }
- 
+
 /**
  * Hook function to filter out hidden pages (get_pages)
  * @param $posts
@@ -191,7 +178,7 @@ function wphp_exclude_low_profile_pages($posts) {
 add_filter('get_pages', 'wphp_exclude_low_profile_pages');
 
 /**
- * 
+ *
  * @param $where
  * @return unknown_type
  */
@@ -207,7 +194,7 @@ function wphp_query_posts_where($where) {
 add_filter('posts_where_paged', 'wphp_query_posts_where');
 
 /**
- * 
+ *
  * @param $join
  * @return unknown_type
  */
@@ -217,7 +204,7 @@ function wphp_query_posts_join($join) {
 		if( !$join )
 			$join = '';
         $join .= ' LEFT JOIN '.WPHP_TABLE_NAME.' wphptbl ON '.WP_POSTS_TABLE_NAME.'.ID = wphptbl.post_id and wphptbl.meta_key like \'_wplp_%\'';
-		// filter posts 
+		// filter posts
 		$join .= ' AND (('.WP_POSTS_TABLE_NAME.'.post_type = \'post\' ';
 		if( wphp_is_front_page() )
 			$join .= ' AND wphptbl.meta_key = \'_wplp_post_front\' ';
@@ -235,14 +222,14 @@ function wphp_query_posts_join($join) {
 			$join .= ' AND wphptbl.meta_key = \'_wplp_post_search\' ';
 		else
             $join .= ' AND wphptbl.meta_key not like  \'_wplp_%\' ';
-		$join .= ')';	
+		$join .= ')';
 		// pages
         $join .= ' OR ('.WP_POSTS_TABLE_NAME.'.post_type = \'page\' AND wphptbl.meta_key <> \'_wplp_page_flags\'';
         if( wphp_is_search())
             $join .= ' AND wphptbl.meta_key = \'_wplp_page_search\' ';
         else
             $join .= ' AND wphptbl.meta_key not like \'_wplp_%\' ';
-        $join .= '))';   
+        $join .= '))';
 	}
     //echo "\n<!-- WPHP: ".$join." -->\n";
     return $join;
@@ -253,6 +240,23 @@ add_filter('posts_join_paged', 'wphp_query_posts_join');
 /*********************
  * ADMIN FUNCTIONS
  *********************/
+
+
+/**
+ * Hook called when activating the plugin
+ * @return unknown_type
+ */
+function wphp_activate() {
+    wphp_init();
+    wphp_log("called: wphp_activate");
+
+    require_once(dirname(__FILE__).'/upgrade.php');
+    wphp_migrate_db();
+    wphp_remove_wp_low_profiler();
+}
+add_action('activate_wp-hide-post/wp-hide-post.php', 'wphp_activate' );
+//register_activation_hook( __FILE__, 'wphp_activate' );
+
 
 /**
  * Hook to watch for the activation of 'WP low Profiler', and forbid it...
@@ -269,12 +273,12 @@ function wphp_activate_lowprofiler() {
     $err2_cleanup = __("The downloaded files were cleaned-up and no further action is required.", 'wp-hide-post');
     $err3_return = __("Return to plugins page...", 'wp-hide-post');
     $return_url = admin_url('plugins.php');
-    
+
     $html = <<<HTML
 ${err1_sorry}<br />${err2_cleanup}<br /><a href="${$return_url}">${err3_return}</a>
 <script language="javascript">window.alert("${msgbox}");</script>
 HTML;
-    // show the error page with the message...   
+    // show the error page with the message...
     wp_die($html, 'WP low Profiler Activation Not Allowed', array( 'response' => '200') );
 }
 add_action('activate_wp-low-profiler/wp-low-profiler.php', 'wphp_activate_lowprofiler' );
@@ -297,7 +301,7 @@ function plugin_install_action_links_wp_lowprofiler($action_links, $plugin) {
 add_filter('plugin_install_action_links', 'plugin_install_action_links_wp_lowprofiler', 10, 2);
 
 /**
- * 
+ *
  * @param $id
  * @param $lp_flag
  * @param $lp_value
@@ -315,7 +319,7 @@ function wphp_update_visibility($id, $lp_flag, $lp_value) {
 }
 
 /**
- * 
+ *
  * @param $item_type
  * @param $id
  * @param $lp_flag
@@ -329,7 +333,7 @@ function wphp_unset_low_profile($item_type, $id, $lp_flag) {
 }
 
 /**
- * 
+ *
  * @param $item_type
  * @param $id
  * @param $lp_flag
@@ -338,10 +342,9 @@ function wphp_unset_low_profile($item_type, $id, $lp_flag) {
  */
 function wphp_set_low_profile($item_type, $id, $lp_flag, $lp_value) {
     wphp_log("called: wphp_set_low_profile");
-    global $wpdb;   
+    global $wpdb;
     // Ensure No Duplicates!
     $check = $wpdb->get_var("SELECT count(*) FROM ".WPHP_TABLE_NAME." WHERE post_id = $id AND meta_key='$lp_flag'");
-    error_log("Check: $check");
     if(!$check) {
         $wpdb->query("INSERT INTO ".WPHP_TABLE_NAME."(post_id, meta_key, meta_value) VALUES($id, '$lp_flag', '$lp_value')");
     } elseif( $item_type == 'page' && $lp_flag == "_wplp_page_flags" ) {
@@ -350,24 +353,31 @@ function wphp_set_low_profile($item_type, $id, $lp_flag, $lp_value) {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_add_post_edit_meta_box() {
     wphp_log("called: wphp_add_post_edit_meta_box");
-    add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post', 'side');
-    add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page', 'side');
+    global $wp_version;
+    if( ! $wp_version || $wp_version >= '2.7' ) {
+	    add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post', 'side');
+	    add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page', 'side');
+    } else {
+        add_meta_box('hidepostdivpost', __('Post Visibility', 'wp-hide-post'), 'wphp_metabox_post_edit', 'post');
+        add_meta_box('hidepostdivpage', __('Page Visibility', 'wp-hide-post'), 'wphp_metabox_page_edit', 'page');
+    }
+
 }
 add_action('admin_menu', 'wphp_add_post_edit_meta_box');
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_metabox_post_edit() {
     wphp_log("called: wphp_metabox_post_edit");
     global $wpdb;
-    
+
     $id = isset($_GET['post']) ? intval($_GET['post']) : 0;
 
     $wplp_post_front = 0;
@@ -377,7 +387,7 @@ function wphp_metabox_post_edit() {
     $wplp_post_archive = 0;
     $wplp_post_search = 0;
     $wplp_post_feed = 0;
-    
+
     if($id > 0) {
         $flags = $wpdb->get_results("SELECT meta_key from ".WPHP_TABLE_NAME." where post_id = $id and meta_key like '_wplp_%'", ARRAY_N);
         if( $flags ) {
@@ -386,7 +396,7 @@ function wphp_metabox_post_edit() {
                 // remove the leading _
                 $flag = substr($flag, 1, strlen($flag)-1);
                 ${$flag} = 1;
-            } 
+            }
         }
     }
 ?>
@@ -411,7 +421,7 @@ function wphp_metabox_post_edit() {
     <label for="wplp_post_feed" class="selectit"><input type="checkbox" id="wplp_post_feed" name="wplp_post_feed" value="1"<?php checked($wplp_post_feed, 1); ?>/>&nbsp;<?php _e('Hide in feeds.', 'wp-hide-post'); ?></label>
     <input type="hidden" name="old_wplp_post_feed" value="<?php echo $wplp_post_feed; ?>"/>
     <br />
-    <div style="float:right;font-size: xx-small;"><a href="http://anappleaday.konceptus.net/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
+    <div style="float:right;font-size: xx-small;"><a href="http://www.1apple1day.com/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
     <br />
     <div style="float:right;font-size: xx-small;"><a href="http://wordpress.org/extend/plugins/wp-hide-post/"><?php _e("Give 'WP Hide Post' a good rating...", 'wp-hide-post'); ?></a></div>
     <br />
@@ -419,18 +429,18 @@ function wphp_metabox_post_edit() {
 }
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_metabox_page_edit() {
     wphp_log("called: wphp_metabox_page_edit");
     global $wpdb;
-    
+
     $id = isset($_GET['post']) ? intval($_GET['post']) : 0;
 
     $wplp_page = 'none';
     $wplp_page_search_show = 1;
-    
+
     if($id > 0) {
         $flags = $wpdb->get_results("SELECT meta_value from ".WPHP_TABLE_NAME." where post_id = $id and meta_key = '_wplp_page_flags'", ARRAY_N);
         if( $flags )
@@ -455,11 +465,11 @@ function wphp_metabox_page_edit() {
         </div>
     </div>
     <br />
-    <div style="float:right;clear:both;font-size:x-small;">* Will still show up in sitemap.xml if you generate one automatically. See <a href="http://anappleaday.konceptus.net/posts/wp-low-profiler/">details</a>.</div>
+    <div style="float:right;clear:both;font-size:x-small;">* Will still show up in sitemap.xml if you generate one automatically. See <a href="http://www.1apple1day.com/posts/wp-low-profiler/">details</a>.</div>
     <br />
     <br />
     <br />
-    <div style="float:right;font-size: xx-small;"><a href="http://anappleaday.konceptus.net/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
+    <div style="float:right;font-size: xx-small;"><a href="http://www.1apple1day.com/posts/wp-hide-post/#comments"><?php _e("Leave feedback and report bugs...", 'wp-hide-post'); ?></a></div>
     <br />
     <div style="float:right;clear:both;font-size:xx-small;"><a href="http://wordpress.org/extend/plugins/wp-hide-post/"><?php _e("Give 'WP Hide Post' a good rating...", 'wp-hide-post'); ?></a></div>
     <br />
@@ -482,7 +492,7 @@ function wphp_metabox_page_edit() {
 }
 
 /**
- * 
+ *
  * @param $id
  * @return unknown_type
  */
@@ -515,12 +525,12 @@ function wphp_save_post($id) {
             } else
                 wphp_update_visibility($id, "_wplp_page_search", 0);
         }
-    }   
+    }
 }
 add_action('save_post', 'wphp_save_post');
 
 /**
- * 
+ *
  * @param $post_id
  * @return unknown_type
  */
@@ -531,5 +541,6 @@ function wphp_delete_post($post_id) {
     $wpdb->query("DELETE FROM ".WPHP_TABLE_NAME." WHERE post_id = $post_id and meta_key like '_wplp_%'");
 }
 add_action('delete_post', 'wphp_delete_post');
+
 
 ?>

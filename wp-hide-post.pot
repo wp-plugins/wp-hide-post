@@ -109,7 +109,7 @@ msgid "WP Hide Post"
 msgstr ""
 
 #. Plugin URI of an extension
-msgid "http://anappleaday.konceptus.net/posts/wp-hide-post/"
+msgid "http://www.1apple1day.com/posts/wp-hide-post/"
 msgstr ""
 
 #. Description of an extension
@@ -129,5 +129,5 @@ msgid "Robert Mahfoud"
 msgstr ""
 
 #. Author URI of an extension
-msgid "http://anappleaday.konceptus.net"
+msgid "http://www.1apple1day.com"
 msgstr ""
