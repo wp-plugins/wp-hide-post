@@ -9,7 +9,7 @@ Author URI: http://www.scriptburn.com
 Text Domain: wp_hide_post
 */
 
-/*  Copyright 2015  Robert Mahfoud  (email : support@scriptburn.com)
+/*  Copyright 2015  Scriptburn  (email : support@scriptburn.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

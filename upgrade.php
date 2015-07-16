@@ -1,5 +1,5 @@
 <?php
-/*  Copyright 2009  Robert Mahfoud  (email : robert.mahfoud@gmail.com)
+/*  Copyright 2015  Scriptburn  (email : support@scriptburn.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  */
 function wphp_migrate_db() {
     wphp_log("called: wphp_migrate_db");
-	/* When I first released this plugin, I was young and crazy and didn't know about the postmeta table. 
+	/* When I first released this plugin, I was young and crazy and didn't know about the postmeta table.
      * With time I became wiser and wiser and decided to migrate the implementation to rely on postmeta.
      * I hope it was not a bad idea...
      */
@@ -66,7 +66,7 @@ function wphp_migrate_db() {
 
 
 /**
- * 
+ *
  * @return unknown_type
  */
 function wphp_remove_wp_low_profiler() {
@@ -83,7 +83,7 @@ function wphp_remove_wp_low_profiler() {
         delete_plugins($plugins, '');
 	} else
 	   wphp_log("The 'WP low Profiler' plugin does not exist.");
-	
+
 }
 
 ?>
