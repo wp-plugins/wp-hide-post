@@ -1,9 +1,9 @@
 === WP Hide Post ===
-Contributors: rmahfoud
+Contributors: scriptburn
 Donate link: http://www.konceptus.net/donate
 Tags: SEO,hide,show,visbility,privacy,customization,sitemap,filter
 Requires at least: 2.6
-Tested up to: 3.2
+Tested up to: 4.2.2
 Stable tag: 1.2.1
 
 Enables you to control the visibility of items on your blog by making posts/pages hidden on some parts of your blog, while still visible in other parts as well as to search engines. This plugin is the new incarnation of the 'WP low Profiler'. If this plugin already exists, it will be upgraded to this one, keeping all existing settings.
@@ -33,7 +33,7 @@ This means, technically, whenever pages are listed somewhere using the `get_page
 
 "WP Hide Post" plugin is a great tool in your arsenal for SEO optimization. It allows you to add plenty of content to your blog, without forcing you to change the nature and presentation of your front page, for example. You can now create content that you otherwise would be reluctant to add to your blog because it would show immediately on the front page, or somewhere else where it would not belong. It's a must-have feature of WordPress.
 
-Please enjoy this plugin freely, comment and rate it profusely, and send me feedback and any ideas for new features. 
+Please enjoy this plugin freely, comment and rate it profusely, and send me feedback and any ideas for new features.
 
 == Installation ==
 
